@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/score_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -29,6 +30,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/question_text"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="7"
@@ -43,6 +45,7 @@
             android:layout_height="8dp" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/start_again_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
@@ -59,12 +62,13 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/true_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_weight="1"
             android:background="@drawable/bg_rounded_rectangle"
-            android:text="False"
+            android:text="True"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -75,12 +79,13 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/false_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_weight="1"
             android:background="@drawable/bg_rounded_rectangle"
-            android:text="True"
+            android:text="False"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="20sp" />
