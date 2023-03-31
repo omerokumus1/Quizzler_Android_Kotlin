@@ -1,4 +1,4 @@
-package com.example.quizzler_android_kotlin.controller
+package com.example.quizzler_android_kotlin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
