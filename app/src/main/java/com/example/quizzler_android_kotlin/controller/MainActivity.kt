@@ -8,12 +8,12 @@ import androidx.core.content.res.ResourcesCompat
 import com.example.quizzler_android_kotlin.R
 import com.example.quizzler_android_kotlin.databinding.ActivityMainBinding
 import com.example.quizzler_android_kotlin.model.Quiz
-import java.util.*
-import kotlin.concurrent.timerTask
+import com.example.quizzler_android_kotlin.model.QuizTimer
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityMainBinding
     private val quiz = Quiz()
+    private var quizTimer: QuizTimer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,32 +71,30 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         v?.let {
-            evaluateAndProceed(it)
-            Timer().schedule(timerTask {
-                runOnUiThread {
-                    val nextQuestion = quiz.getNextQuestion()
-                    if(nextQuestion != null) {
-                        binding.questionText.text = nextQuestion
-                        resetButtonColors()
-                        enableButton(binding.trueBtn)
-                        enableButton(binding.falseBtn)
-                    } else {
-                        binding.questionText.text = "Quiz is Finished!"
-                        resetButtonColors()
-                        showAndEnableButton(binding.startAgainBtn)
-                        hideAndDisableButton(binding.trueBtn)
-                        hideAndDisableButton(binding.falseBtn)
-                    }
-                }
-            }, 1000)
+            updateViews(v)
+            quizTimer = QuizTimer(1, ::questionOnFinish)
+            quizTimer?.startTimer()
         }
     }
 
-
-    private fun evaluateAndProceed(clickedButton: View) {
-        updateViews(clickedButton)
-// TODO        setTimerForNextQuestion(clickedButton)
+    private fun questionOnFinish() {
+        runOnUiThread {
+            val nextQuestion = quiz.getNextQuestion()
+            if (nextQuestion != null) {
+                binding.questionText.text = nextQuestion
+                resetButtonColors()
+                enableButton(binding.trueBtn)
+                enableButton(binding.falseBtn)
+            } else {
+                binding.questionText.text = "Quiz is Finished!"
+                resetButtonColors()
+                showAndEnableButton(binding.startAgainBtn)
+                hideAndDisableButton(binding.trueBtn)
+                hideAndDisableButton(binding.falseBtn)
+            }
+        }
     }
+
 
 //    private fun setTimerForNextQuestion(button: View) {
 //        timer.schedule(timerTask {
