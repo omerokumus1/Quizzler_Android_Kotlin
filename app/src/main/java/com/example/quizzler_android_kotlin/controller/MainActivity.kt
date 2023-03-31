@@ -1,7 +1,8 @@
-package com.example.quizzler_android_kotlin
+package com.example.quizzler_android_kotlin.controller
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.quizzler_android_kotlin.R
 import com.example.quizzler_android_kotlin.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
