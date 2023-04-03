@@ -9,4 +9,8 @@ class QuizTimer(private val totalSeconds: Int, private val onFinish: (() -> Unit
     fun startTimer() {
         timer.schedule(timerTask { onFinish?.invoke()}, totalSeconds*1000L)
     }
+
+    fun cancel() {
+        timer.cancel()
+    }
 }
