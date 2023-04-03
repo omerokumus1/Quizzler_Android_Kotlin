@@ -56,4 +56,9 @@ class MainActivityViewModel : ViewModel() {
         mCorrectAnswers++
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        quizTimer?.cancel()
+    }
+
 }
