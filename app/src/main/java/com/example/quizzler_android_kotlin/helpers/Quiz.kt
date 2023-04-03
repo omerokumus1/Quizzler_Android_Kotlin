@@ -1,4 +1,4 @@
-package com.example.quizzler_android_kotlin.viewmodel
+package com.example.quizzler_android_kotlin.helpers
 
 import com.example.quizzler_android_kotlin.model.Question
 

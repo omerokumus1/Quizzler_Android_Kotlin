@@ -1,4 +1,4 @@
-package com.example.quizzler_android_kotlin.viewmodel
+package com.example.quizzler_android_kotlin.helpers
 
 import java.util.*
 import kotlin.concurrent.timerTask
