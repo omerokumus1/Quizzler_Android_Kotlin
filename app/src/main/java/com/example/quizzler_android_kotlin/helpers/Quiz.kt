@@ -31,11 +31,8 @@ class Quiz {
     fun getQuestion(questionIndex: Int): String? {
         return if (questionIndex < questionCount) questions[questionIndex].q
         else null
-
     }
 
-    fun getCorrectAnswer(questionIndex: Int) = questions[questionIndex].a
-
-    fun isAnswerCorrect(answer: String, questionIndex: Int) = answer == getCorrectAnswer(questionIndex)
+    fun isAnswerCorrect(answer: String, questionIndex: Int) = answer == questions[questionIndex].a
 
 }
