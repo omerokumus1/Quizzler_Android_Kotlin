@@ -34,19 +34,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun observeCurrentQuestionText() {
         viewModel.currentQuestionText.observe(this) { nextQuestion ->
-            runOnUiThread {
-                if (nextQuestion != null) {
-                    binding.questionText.text = nextQuestion
-                    resetButtonColors()
-                    enableButton(binding.trueBtn)
-                    enableButton(binding.falseBtn)
-                } else {
-                    binding.questionText.text = "Quiz is Finished!"
-                    resetButtonColors()
-                    showAndEnableButton(binding.startAgainBtn)
-                    hideAndDisableButton(binding.trueBtn)
-                    hideAndDisableButton(binding.falseBtn)
-                }
+            if (nextQuestion != null) {
+                binding.questionText.text = nextQuestion
+                resetButtonColors()
+                enableButton(binding.trueBtn)
+                enableButton(binding.falseBtn)
+            } else {
+                binding.questionText.text = "Quiz is Finished!"
+                resetButtonColors()
+                showAndEnableButton(binding.startAgainBtn)
+                hideAndDisableButton(binding.trueBtn)
+                hideAndDisableButton(binding.falseBtn)
             }
         }
     }
