@@ -1,12 +1,11 @@
 package com.example.quizzler_android_kotlin.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.example.quizzler_android_kotlin.helpers.ObservableObject
 import com.example.quizzler_android_kotlin.helpers.Quiz
 import com.example.quizzler_android_kotlin.helpers.QuizTimer
+import io.reactivex.rxjava3.subjects.BehaviorSubject
+
+const val EMPTY = ""
 
 class MainActivityViewModel : ViewModel() {
 
@@ -16,16 +15,17 @@ class MainActivityViewModel : ViewModel() {
         get() = mCorrectAnswers
     private var mCurrentQuestion = 0
 
-    private val mCurrentQuestionText: MutableLiveData<String?> by lazy {
-        MutableLiveData<String?>()
+
+    private val mCurrentQuestionText: BehaviorSubject<String> by lazy {
+        BehaviorSubject.create()
     }
-    val currentQuestionText: LiveData<String?> = mCurrentQuestionText
+    val currentQuestionText: BehaviorSubject<String> = mCurrentQuestionText
 
-    private val mIsTimerUp: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
-    val isTimerUp: LiveData<Boolean> = mIsTimerUp
+    private val mIsTimerUp: BehaviorSubject<Boolean> by lazy { BehaviorSubject.create() }
+    val isTimerUp: BehaviorSubject<Boolean> = mIsTimerUp
 
-    private val mIsAnswerCorrect: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
-    val isAnswerCorrect: LiveData<Boolean> = mIsAnswerCorrect
+    private val mIsAnswerCorrect: BehaviorSubject<Boolean> by lazy { BehaviorSubject.create() }
+    val isAnswerCorrect: BehaviorSubject<Boolean> = mIsAnswerCorrect
 
     private var quizTimer: QuizTimer? = null
     val getQuestionCount = mQuiz.value.questionCount
@@ -38,21 +38,22 @@ class MainActivityViewModel : ViewModel() {
     }
 
     fun startTimer(forSeconds: Int) {
-        mIsTimerUp.value = false
+        mIsTimerUp.onNext(false)
         quizTimer = QuizTimer(forSeconds) {
-            mIsTimerUp.postValue(true)
-            mIsTimerUp.postValue(true)
+            mIsTimerUp.onNext(true)
+            mIsTimerUp.onNext(false)
         }
         quizTimer?.startTimer()
     }
 
     fun nextQuestion() {
         mCurrentQuestion++
-        mCurrentQuestionText.value = mQuiz.value.getQuestion(mCurrentQuestion)
+        mCurrentQuestionText
+            .onNext(mQuiz.value.getQuestion(mCurrentQuestion) ?: EMPTY)
     }
 
     fun setIsAnswerCorrect(answer: String) {
-        mIsAnswerCorrect.value = mQuiz.value.isAnswerCorrect(answer, mCurrentQuestion)
+        mIsAnswerCorrect.onNext(mQuiz.value.isAnswerCorrect(answer, mCurrentQuestion))
     }
 
     fun increaseCorrectAnswers() {
