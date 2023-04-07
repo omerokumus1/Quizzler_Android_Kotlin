@@ -8,6 +8,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.quizzler_android_kotlin.R
 import com.example.quizzler_android_kotlin.databinding.ActivityMainBinding
+import com.example.quizzler_android_kotlin.viewmodel.EMPTY
 import com.example.quizzler_android_kotlin.viewmodel.MainActivityViewModel
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -33,8 +34,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun observeCurrentQuestionText() {
-        viewModel.currentQuestionText.observe(this) { nextQuestion ->
-            if (nextQuestion != null) {
+        viewModel.currentQuestionText.subscribe { nextQuestion ->
+            if (nextQuestion != EMPTY) {
                 binding.questionText.text = nextQuestion
                 resetButtonColors()
                 enableButton(binding.trueBtn)
@@ -50,15 +51,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun observeIsTimerUp() {
-        viewModel.isTimerUp.observe(this) {
+        viewModel.isTimerUp.subscribe {
             if (it) {
-                displayNextQuestion()
+                runOnUiThread { displayNextQuestion() }
             }
         }
     }
 
     private fun observeIsAnswerCorrect() {
-        viewModel.isAnswerCorrect.observe(this) {
+        viewModel.isAnswerCorrect.subscribe {
             val otherButton = getOtherButton()
             if (it) {
                 viewModel.increaseCorrectAnswers()
